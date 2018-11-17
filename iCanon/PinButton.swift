@@ -10,6 +10,8 @@ import UIKit
 
 class PinButton: UIButton {
     
+    var isTapped = false
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         modifyText()

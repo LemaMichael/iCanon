@@ -232,7 +232,16 @@ class ViewController: UIViewController {
     
     @objc fileprivate func handleButton(sender: PinButton) {
         guard let label = sender.titleLabel, let pin = label.text else { return }
-        print(pin)
+        sender.isTapped = !sender.isTapped
+        if sender.isTapped {
+            print("Turin on: \(pin)")
+            let task = URLSession.shared.dataTask(with: URL(string: "http://\(getIP())/pin\(pin)-on")!)
+            task.resume()
+        } else {
+            print("Turning off: \(pin)")
+            let task = URLSession.shared.dataTask(with: URL(string: "http://\(getIP())/pin\(pin)-off")!)
+            task.resume();
+        }
     }
     
     override func viewDidLoad() {
@@ -252,3 +261,11 @@ class ViewController: UIViewController {
     
 }
 
+extension ViewController {
+    fileprivate func getIP() -> String {
+        let filePath = Bundle.main.path(forResource: "Configuration", ofType: "plist")
+        let plist = NSDictionary(contentsOfFile: filePath!)
+        let ip = plist?.object(forKey: "Local IP") as! String
+        return ip
+    }
+}
