@@ -242,7 +242,7 @@ class ViewController: UIViewController {
         view.addSubview(containerView)
         containerView.addSubview(rightStackView)
         containerView.addSubview(leftStackView)
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(red:0.71, green:0.54, blue:0.17, alpha:1.00)
         setupContainerView()
     }
     
@@ -252,8 +252,12 @@ class ViewController: UIViewController {
         leftStackView.anchor(top: containerView.topAnchor, bottom: containerView.bottomAnchor, left: containerView.leftAnchor, right: nil, paddingTop: 10, paddingBottom: 10, paddingLeft: 4, paddingRight: 0, width: 50, height: 0)
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 }
 
+// MARK: - LOGIC
 extension ViewController {
     
     @objc fileprivate func handleButton(sender: PinButton) {
@@ -261,7 +265,7 @@ extension ViewController {
         sender.isTapped = !sender.isTapped
         if sender.isTapped {
             guard let url = URL(string: "http://\(getIP())/\(pin)-HIGH") else { return }
-            print("Turin on: \(pin)")
+            print("Turing on: \(pin)")
             let task = URLSession.shared.dataTask(with: url)
             task.resume()
         } else {
