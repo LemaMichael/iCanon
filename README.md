@@ -4,6 +4,10 @@
  <img src = "/Assets/Cover.svg" > 
 </p>
 
+![](https://img.shields.io/badge/iOS-10.0%2B-orange.svg)
+![](https://img.shields.io/badge/NodeMCU-ESP8266-red.svg)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 **Remotely Control the ESP8266 NodeMCU using iOS**
 
 ## Preview
