@@ -10,16 +10,24 @@ import UIKit
 
 class PinButton: UIButton {
     
-    var isTapped = false
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         modifyText()
     }
+    var changeTitleColor = true
     
     var rotateCounterclockwise: Bool?  {
         didSet {
             self.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        }
+    }
+    
+    var isTapped: Bool = false {
+        didSet {
+            if changeTitleColor {
+                let color = isTapped ? UIColor(red:0.81, green:0.33, blue:0.13, alpha:1.00) : .white
+                self.setTitleColor(color, for: .normal)
+            }
         }
     }
     

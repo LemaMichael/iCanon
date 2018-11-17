@@ -42,12 +42,14 @@ class ViewController: UIViewController {
     }()
     lazy var vButton: PinButton = {
         let button = PinButton()
+        button.changeTitleColor = false
         button.setTitle("3V3", for: .normal)
         button.addTarget(self, action: #selector(handleButton(sender:)), for: .touchUpInside)
         return button
     }()
     lazy var gndButton: PinButton = {
         let button = PinButton()
+        button.changeTitleColor = false
         button.setTitle("GND", for: .normal)
         button.addTarget(self, action: #selector(handleButton(sender:)), for: .touchUpInside)
         return button
@@ -90,12 +92,14 @@ class ViewController: UIViewController {
     }()
     lazy var gnd2Button: PinButton = {
         let button = PinButton()
+        button.changeTitleColor = false
         button.setTitle("GND", for: .normal)
         button.addTarget(self, action: #selector(handleButton(sender:)), for: .touchUpInside)
         return button
     }()
     lazy var v2Button: PinButton = {
         let button = PinButton()
+        button.changeTitleColor = false
         button.setTitle("3V3", for: .normal)
         button.addTarget(self, action: #selector(handleButton(sender:)), for: .touchUpInside)
         return button
@@ -174,6 +178,7 @@ class ViewController: UIViewController {
     }()
     lazy var gnd3Button: PinButton = {
         let button = PinButton()
+        button.changeTitleColor = false
         button.rotateCounterclockwise = true
         button.setTitle("GND", for: .normal)
         button.addTarget(self, action: #selector(handleButton(sender:)), for: .touchUpInside)
@@ -181,6 +186,7 @@ class ViewController: UIViewController {
     }()
     lazy var v3Button: PinButton = {
         let button = PinButton()
+        button.changeTitleColor = false
         button.rotateCounterclockwise = true
         button.setTitle("3V3", for: .normal)
         button.addTarget(self, action: #selector(handleButton(sender:)), for: .touchUpInside)
@@ -202,6 +208,7 @@ class ViewController: UIViewController {
     }()
     lazy var gnd4Button: PinButton = {
         let button = PinButton()
+        button.changeTitleColor = false
         button.rotateCounterclockwise = true
         button.setTitle("GND", for: .normal)
         button.addTarget(self, action: #selector(handleButton(sender:)), for: .touchUpInside)
@@ -230,20 +237,6 @@ class ViewController: UIViewController {
         return view
     }()
     
-    @objc fileprivate func handleButton(sender: PinButton) {
-        guard let label = sender.titleLabel, let pin = label.text else { return }
-        sender.isTapped = !sender.isTapped
-        if sender.isTapped {
-            print("Turin on: \(pin)")
-            let task = URLSession.shared.dataTask(with: URL(string: "http://\(getIP())/pin\(pin)-on")!)
-            task.resume()
-        } else {
-            print("Turning off: \(pin)")
-            let task = URLSession.shared.dataTask(with: URL(string: "http://\(getIP())/pin\(pin)-off")!)
-            task.resume();
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(containerView)
@@ -262,6 +255,23 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
+    
+    @objc fileprivate func handleButton(sender: PinButton) {
+        guard let label = sender.titleLabel, let pin = label.text else { return }
+        sender.isTapped = !sender.isTapped
+        if sender.isTapped {
+            guard let url = URL(string: "http://\(getIP())/\(pin)-HIGH") else { return }
+            print("Turin on: \(pin)")
+            let task = URLSession.shared.dataTask(with: url)
+            task.resume()
+        } else {
+            guard let url = URL(string: "http://\(getIP())/\(pin)-LOW") else { return }
+            print("Turning off: \(pin)")
+            let task = URLSession.shared.dataTask(with: url)
+            task.resume();
+        }
+    }
+    
     fileprivate func getIP() -> String {
         let filePath = Bundle.main.path(forResource: "Configuration", ofType: "plist")
         let plist = NSDictionary(contentsOfFile: filePath!)
