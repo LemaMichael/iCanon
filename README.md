@@ -1,7 +1,7 @@
 # iCanon
 
 <p align="center">
- <img src = "/Assets/Cover.svg" > 
+ <img src = "/Assets/Cover.svg"  width = 850> 
 </p>
 
 ![](https://img.shields.io/badge/iOS-10.0%2B-orange.svg)
